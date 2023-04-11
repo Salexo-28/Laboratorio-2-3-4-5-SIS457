@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Piece.h"
 #include "Components/SceneComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -8,47 +7,52 @@
 #include <vector>
 
 
-// Sets default values
+//establece valores predeterminados 
 APiece::APiece()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
 
-	SceneComponent = CreateDefaultSubobject<USceneComponent>("Pieces Scene");
-	RootComponent = SceneComponent;
+    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+    PrimaryActorTick.bCanEverTick = true;
+
+    SceneComponent = CreateDefaultSubobject<USceneComponent>("Pieces Scene");
+    RootComponent = SceneComponent;
 }
 
-// Called when the game starts or when spawned
+// Llamado cuando comienza el juego o cuando se genera
 void APiece::BeginPlay()
 {
-	Super::BeginPlay();
-	
+    Super::BeginPlay();
+
 }
 
-// Called every frame
+// Se llama a cada fotograma
 void APiece::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+    Super::Tick(DeltaTime);
 
 }
 
 void APiece::SpawnBlocks()
 {
-    std::vector<std::vector<std::pair<float, float>>> Shapes =
+    std::vector<std::vector<std::pair<float, float>>> Shapes =     //se crea un vector de vectores de pares flotantes 
     {
-        {{-20.0, 0.0}, {-10.0, 0.0}, {0.0, 0.0}, {10.0, 0.0}},
-        {{0.0, 10.0}, {0.0, 0.0}, {10.0, 0.0}, {20.0, 0.0}},
-        {{-20.0, 0.0}, {-10.0, 0.0}, {0.0, 0.0}, {0.0, 10.0}},
-        {{0.0, 0.0}, {10.0, 0.0}, {0.0, -10.0}, {10.0, -10.0}},
-        {{-10.0, -10.0}, {0.0, -10.0}, {0.0, 0.0}, {10.0, 0.0}},
-        {{-10.0, 0.0}, {0.0, 0.0}, {0.0, 10.0}, {10.0, 0.0}},
-        //{{-10.0, 0.0}, {0.0, 0.0}, {0.0, -10.0}, {10.0, -10.0}},
-        {{-20.0, 10.0}, {-10.0, 0.0}, {0.0, 10.0}, {10.0, 0.0}},
+        {{-20.0, 0.0}, {-10.0, 0.0}, {0.0, 0.0}, {10.0, 0.0}},              // Pieza Linea H
+        {{0.0, -20.0}, {0.0, -10.0}, {0.0, 0.0}, {0.0, 10.0}},              // Pieza Linea V
+        {{0.0, 10.0}, {0.0, 0.0}, {10.0, 0.0}, {20.0, 0.0}},                // Pieza L   
+        {{-20.0, 0.0}, {-10.0, 0.0}, {0.0, 0.0}, {0.0, 10.0}},              // Pieza L invertida
+        {{0.0, 0.0}, {10.0, 0.0}, {0.0, -10.0}, {10.0, -10.0}},             // Pieza Cuadrado
+        {{-10.0, -10.0}, {0.0, -10.0}, {0.0, 0.0}, {10.0, 0.0}},            // Pieza Z invertida
+        {{-10.0, 0.0}, {0.0, 0.0}, {0.0, 10.0}, {10.0, 0.0}},               // Pieza T invertida
+        {{-10.0, 0.0}, {0.0, 0.0}, {0.0, -10.0}, {10.0, -10.0}},            // Pieza Z
+        {{-10.0, 0.0}, {0.0, 0.0}, {10.0, 0.0}, {0.0, 10.0}, {0.0, -10.0}},  // Pieza Cruz
+        //{{-20.0, 10.0}, {-10.0, 0.0}, {0.0, 10.0}, {10.0, 0.0}}, ///bloques representa bloques individuales de una pieza 
     };
-    const int Index = FMath::RandRange(0, Shapes.size() - 1);
+    Index = FMath::RandRange(0, Shapes.size() - 1); //genera la pieza aleatoria entre 0 y el tamaño del vector shepes -1
     UE_LOG(LogTemp, Warning, TEXT("index=%d"), Index);
-    const std::vector<std::pair<float, float>>& YZs = Shapes[Index];
-    for (auto&& YZ : YZs)
+    //se declara la variable YZs
+    const std::vector<std::pair<float, float>>& YZs = Shapes[Index];//guarde la posicion en el vector (se guarda la pieza)
+    //auto&& declara automaticamente la variable
+    for (auto&& YZ : YZs)//crea y une bloque por bloque
     {
         FRotator Rotation(0.0, 0.0, 0.0);
         ABlock* B = GetWorld()->SpawnActor<ABlock>(this->GetActorLocation(), Rotation);
@@ -59,12 +63,15 @@ void APiece::SpawnBlocks()
     }
 }
 
+
+
+
 void APiece::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
     UE_LOG(LogTemp, Warning, TEXT("Piezas eliminadas"));
 }
 
-void APiece::Dismiss()
+void APiece::Dismiss()//elimina la pieza actual 
 {
     Blocks.Empty();
 }
