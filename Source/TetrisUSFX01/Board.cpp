@@ -1,30 +1,34 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#pragma once
 
-#include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
-#include "Piece.h"
-#include "Board.generated.h"
+#include "Board.h"
 
-UCLASS() //
-class TETRISUSFX01_API ABoard : public APawn //representa el tablero del juego contiene logica para manejar las piezas
+// Establece valores predeterminados
+ABoard::ABoard()
 {
-	GENERATED_BODY()//genera el cuerpo de la clase
+ 	// Establezca este peón para llamar a Tick() cada fotograma.  Puede desactivar esto para mejorar el rendimiento si no lo necesita.
+	PrimaryActorTick.bCanEverTick = true;
 
-public:
-	// inicializa valores predeterminados para las propiedades de clase
-	ABoard();
+}
 
-protected:
-	// Llama cuando comienza el juego o cuando se genera
-	virtual void BeginPlay() override;
+// Llamado cuando comienza el juego o cuando se genera
+void ABoard::BeginPlay()
+{
+	Super::BeginPlay();
+	
+}
 
-public:	
-	// Se llama a cada fotograma 
-	virtual void Tick(float DeltaTime) override;
+// Se llama a cada fotograma
+void ABoard::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 
-	// Se llama para vincular la funcionalidad del controlador de entrada a la instancia el tablero 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+}
 
-};
+// Se llama para enlazar la funcionalidad a la entrada
+void ABoard::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+}
+
