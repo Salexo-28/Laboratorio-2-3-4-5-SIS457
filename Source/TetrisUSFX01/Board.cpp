@@ -3,32 +3,31 @@
 
 #include "Board.h"
 
-// Sets default values
+// Establece valores predeterminados
 ABoard::ABoard()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ 	// Establezca este peón para llamar a Tick() cada fotograma.  Puede desactivar esto para mejorar el rendimiento si no lo necesita.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
 
-// Called when the game starts or when spawned
+// Llamado cuando comienza el juego o cuando se genera
 void ABoard::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
+// Se llama a cada fotograma
 void ABoard::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-// Called to bind functionality to input
+// Se llama para enlazar la funcionalidad a la entrada
 void ABoard::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
-
